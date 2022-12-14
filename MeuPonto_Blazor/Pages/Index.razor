@@ -1,0 +1,480 @@
+﻿@page "/"
+@using MeuPonto_Blazor.Data
+@using MeuPonto
+@inject UsuarioService UsuarioService
+@inject NavigationManager NavManager
+
+<h1>Olá, seja bem-vindo ao MeuPonto</h1>
+
+<p>Este é um sistema experimental e não deve ser utilizado em ambientes de produção, desenvolvido por Lucas Rodrigues
+    Fraguas como Projeto Integrado da pós-graduação em Engenharia de Software da PUC Minas.</p>
+<br />
+
+@if (!UsuarioService.LoginStatus)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+    <div class="container border" style="padding:20px">
+        <h2>Login</h2>
+        <p>Insira o seu usuário e senha para acessar o sistema:</p>
+        <br />
+        <div class="form-group row">
+            <div class="col-3">
+                <input type="text" class="form-control" placeholder="Usuário" @bind="@usuario" />
+            </div>
+            <div class="col-3">
+                <input type="password" class="form-control" placeholder="Senha" @bind="@senha" />
+            </div>
+            <button class="btn btn-primary" @onclick="() => CheckLogin()">Login</button>
+        </div>
+    </div>
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+else
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+    <div class="container border" style="padding:20px">
+        <h4>Como eu faço a marcação de pontos?</h4>
+        <p>Selecione a aba "Apontamento", e então escolha o Mês para que a interface seja carregada. Ao carregar, escolha a
+            linha referente ao dia e clique no link da coluna "Marcações".</p>
+
+        <h4>Como eu faço a marcação de atividades?</h4>
+        <p>Selecione a aba "Apontamento", e então selecione o botão "Editar" no dia em que deseja inserir a atividade.</p>
+
+        <h4>Como eu gero o relatório mensal de espelho de ponto?</h4>
+        <p>Selecione a aba "Relatório", preencha o período contábil e código do funcionário, e clique em "Gerar". Logo em
+            seguida será gerado o espelho de ponto no formato PDF.</p>
+    </div>
+    <br />
+    <button class="btn btn-danger" @onclick="() => Logout()">Logout</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+@code {
+
+
+
+
+
+
+
+    private string usuario { get; set; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private string senha { get; set; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void CheckLogin()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        if ((usuario != null || senha != null) && Usuario.CheckLogin(UsuarioService.usuarios.ToList(), new Usuario(usuario,
+        senha)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            UsuarioService.LoginStatus = true;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            NavManager.NavigateTo("/");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        else
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //Adicionar mensagem de erro
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void Logout()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        usuario = "";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        senha = "";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        UsuarioService.LoginStatus = false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        NavManager.NavigateTo("/");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+}

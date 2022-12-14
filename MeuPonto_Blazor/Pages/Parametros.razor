@@ -1,0 +1,114 @@
+﻿@page "/parametros"
+@using MeuPonto
+@using MeuPonto_Blazor.Data
+@inject UsuarioService UsuarioService;
+
+<h1>Parâmetros</h1>
+<br />
+
+<div class="container border" style="padding:20px">
+    <h2>Cadastro de Usuários</h2>
+    <form>
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Nome" @bind="NovoUsuarioNome">
+            </div>
+            <div class="col">
+                <input type="password" class="form-control" placeholder="Senha" @bind="NovoUsuarioSenha">
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary"
+                    @onclick="@(p => InserirUsuario(NovoUsuarioNome, NovoUsuarioSenha))">Adicionar</button>
+            </div>
+        </div>
+    </form>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Senha</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in UsuarioService.usuarios)
+            {
+                <tr>
+                    <td align="center"><input type="text" class="form-control" placeholder="Nome" @bind="@usuario.Nome" />
+                    </td>
+                    <td align="center"><input type="password" class="form-control" placeholder="Senha"
+                        @bind="@usuario.Senha" /></td>
+                    <td align="center"><button type="button" class="btn btn-primary"
+                        @onclick="@(p => RemoverUsuario(usuario))">X</button></td>
+                </tr>
+
+
+
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+
+
+
+    public string NovoUsuarioNome { get; set; }
+
+
+
+    public string NovoUsuarioSenha { get; set; }
+
+    public void InserirUsuario(string usuarioNome, string usuarioSenha)
+
+
+
+    {
+
+
+
+        Usuario usuario = new Usuario(usuarioNome, usuarioSenha);
+
+
+
+        if (!string.IsNullOrEmpty(NovoUsuarioNome) && !string.IsNullOrEmpty(NovoUsuarioSenha) &&
+
+        !Usuario.CheckExistencia(UsuarioService.usuarios.ToList(), usuario))
+
+
+
+        {
+
+
+
+            UsuarioService.usuarios.Add(new MeuPonto.Usuario(NovoUsuarioNome, NovoUsuarioSenha));
+
+
+
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+    private void RemoverUsuario(Usuario usuario)
+
+
+
+    {
+
+
+
+        UsuarioService.usuarios.Remove(usuario);
+
+
+
+    }
+}

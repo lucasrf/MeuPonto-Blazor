@@ -1,0 +1,17 @@
+﻿@inherits LayoutComponentBase
+@using MeuPonto_Blazor.Data
+@inject UsuarioService UsuarioService
+
+@if (UsuarioService.LoginStatus)
+
+{
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+}
+<div class="main">
+    <div class="content px-4">
+        @Body
+    </div>
+</div>
